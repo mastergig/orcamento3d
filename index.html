@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<style type='text/css'>
+			body,html{
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				font-family: Tahoma;
+			}
+		</style>
+		<script type='text/javascript'>
+			//alert('hello world');
+			
+			function calcula()
+			{
+				var grama = Number(document.getElementById("grama").value);
+				var plate = Number(document.getElementById("plate").value);
+				var qtdCores = Number(document.getElementById("cores").value);
+				var horas = Number(document.getElementById("horas").value);
+				var minutos = Number(document.getElementById("minutos").value);
+				
+				var custo = 29 + plate;
+				var tempo = minutos + (horas * 60);
+				
+				var custoMinutos = (qtdCores == 1)?30:(qtdCores == 2)?20:(qtdCores == 3)?15:10;
+				
+				var custoTempo = Math.floor(tempo/custoMinutos)
+				custo += custoTempo;
+				custo = ((custo>50)?50:custo)/100;
+				valor = grama * custo;
+				
+				document.getElementById("custo").value = "R$ "+custo;
+				document.getElementById("valor").value = "R$ "+valor;
+			}
+		</script>
+	</head>
+	
+	<body>
+		<h1>Orçamento Impressão 3D</h1>
+		<p>Quantidade de Gramas (desperdício incluso): <input id="grama" name="grama" onchange="calcula()" type="number" min=1 value=1 /></p>
+		<p>Quantidade de Cores: <select id="cores" onchange="calcula()" name="cores"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></p>
+		<p>Quantidade de Chapas(Plate) para impressão: <input id="plate" name="plate" type="number" min=1 value=1  onchange="calcula()" /></p>
+		<p>Tempo de impressão: <input type="number" id="horas" name="horas" min="0" max="10" value=0 onchange="calcula()" /> horas e <input type="number" id="minutos" name="minutos" min="0" max="59" value=1 onchange="calcula()" /> minutos (mais de 10 horas cai no valor fixo de 50 centavos)</p>
+		<p><b>Valor Total</b>: <input id="valor" name="valor" readonly value="R$ 0,30" /></p>
+		<p>Custo da Grama de PLA: <input id="custo" name="custo" readonly value="R$ 0,30" /></p>
+		<h3>FAQ</h3>
+		<b>Como funciona?</b>
+		<p>O processo de impressão é demorado, mas mesmo assim é algo mágico, onde muitas pessoas já disponibilizaram varios modelos prontos, como bonecos articulados, brinquedos retrateis e diversas utilidades. Se você não quer ficar preso ao  que está no site do Bambu Lab, você pode passar um arquivo .stl e podemos fazer um orçamento.</p>
+		<b>Como o custo é calculado?</b>
+		<p>Inicialmente, o custo é do filamento, usando o filamento mais caro em nossa possesão como referência, fica 20 centavos a grama. adiciono 10 centavos à grama para cobrir os custos de energia, e 1 centavo para cada marcador de tempo. O calculo do tempo é baseado em quantas cores são usadas ao mesmo tempo e, no momento, nossa impressora apenas possui suporte a 4 cores de filamento ao mesmo tempo. Leve em consideração que o disperdicio tambem faz parte do valor. O custo maximo a ser cobrado é de 50 centavos. Segue tabela de referencia do uso de tempo em uma unica chapa abaixo:</p>
+		<table><thead><tr><th>Calculo por Custo</th><th>1 Cor</th><th>2 Cores</th><th>3 Cores</th><th>4 Cores</th></tr></thead><tbody><tr><td>1 centavo por n minutos</td><td>30 minutos</td><td>20 minutos</td><td>15 minutos</td><td>10 minutos</td></tr><tr><td>Custo de Impressão de 1 hora</td><td>R$ 0,32</td><td>R$ 0,33</td><td>R$ 0,34</td><td>R$ 0,35</td></tr><tr><td>Custo de Impressão de 2 horas</td><td>R$ 0,34</td><td>R$ 0,36</td><td>R$ 0,38</td><td>R$ 0,40</td></tr><tr><td>Custo de Impressão de 4 horas</td><td>R$ 0,38</td><td>R$ 0,42</td><td>R$ 0,46</td><td>R$ 0,50</td></tr><tr><td>Custo de Impressão de 5 horas</td><td>R$ 0,40</td><td>R$ 0,45</td><td>R$ 0,50</td><td>R$ 0,50</td></tr><tr><td>Custo de Impressão de 6 horas</td><td>R$ 0,42</td><td>R$ 0,48</td><td>R$ 0,50</td><td>R$ 0,50</td></tr><tr><td>Custo de 10 horas ou mais</td><td>R$ 0,50</td><td>R$ 0,50</td><td>R$ 0,50</td><td>R$ 0,50</td></tr></tbody></table>
+		<b>Calculando custo de conversão de imagem em chaveiros e/ou marca-páginas</b>
+		<p>Como existe o processo de converter a arte para a impressão, nesse caso o orçamento é gratuito, mas será cobrado o valor de 50 centavos a grama para cobrir a adaptação da imagem para a impressão. Como chaveiros e marca-página não requerem muito material, o custo não fica tão alto para revenda e cxonsegue algo personalizado.</p>
+		<b>O que não fazemos?</b>
+		<p>Não prestamos serviço do tipo de aplicação de resina e corrente de chaveiros, ainda não está nos planos incluir esses tipos de serviço. No caso ainda não temos alguem  especializado em modelação 3D, portanto caso precise de um objeto mais preciso, será necessário contratar alguem para prestar esse serviço. Como mencionado anteriormente, arquivos no formato .stl são perfeitos para impressão.</p>
+	</body>
+</html>
