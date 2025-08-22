@@ -29,7 +29,8 @@
 	<p>Quantidade de Chapas(Plate) para impressão: <input id="qtd" name="qtd" type="number" min="1" value="1"
 			onchange="calcula()"></p>
 	<p>Tempo de impressão: <input type="number" id="horas" name="horas" min="0" value="0" onchange="calcula()"> horas e
-		<input type="number" id="minutos" name="minutos" min="0" max="59" value="1" onchange="calcula()"> minutos</p>
+		<input type="number" id="minutos" name="minutos" min="0" max="59" value="1" onchange="calcula()"> minutos
+	</p>
 	<p><b>Preço Sugerido</b>: <input id="valor" name="valor" readonly="" value="R$ 0,30"></p>
 	<p>Custo do Material: <input id="custoPLA" name="custoPLA" readonly="" value="R$ 0,30"></p>
 	<p>Custo de Energia: <input id="custoEnergia" name="custoEnergia" readonly="" value="R$ 0,30"></p>
@@ -132,13 +133,26 @@
 			</div>
 		</div>
 		<div class="acc-item">
+			<input type="radio" name="acc" id="term">
+			<label class="acc-label" for="term">Como fica em relação de Propriedade Intelectual?</label>
+			<div class="acc-content">
+				<div>
+					<p>Todos os arquivos e modelos que você envia são usados apenas para gerar o orçamento e realizar a
+						impressão. Eles não são compartilhados nem divulgados a terceiros, e você continua sendo o único
+						dono da sua arte. Se quiser, também pode pedir a exclusão dos arquivos após a conclusão do
+						nosso serviço.</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
 			<input type="radio" name="acc" id="last">
 			<label class="acc-label" for="last">Ficou com alguma duvida? Quer fazer um orçamento? Entre em contato
 				comigo!</label>
 			<div class="acc-content">
 				<div>
 					<p>Ops, ainda não criei um email exclusivo pra isso, mas se esse link chegou até você, provavelmente
-						você tem como entrar em contato... ou aguarde uma atualização dessa página</p>
+						você tem como entrar em contato... ou aguarde uma atualização dessa página, muito em breve
+						disponibilizarei contato</p>
 				</div>
 			</div>
 		</div>
