@@ -1,58 +1,149 @@
 <html>
-	<head>
-		<style type='text/css'>
-			body,html{
-				margin: 0;
-				padding: 0;
-				width: 100%;
-				height: 100%;
-				font-family: Tahoma;
-			}
-		</style>
-		<script type='text/javascript'>
-			//alert('hello world');
-			
-			function calcula()
-			{
-				var grama = Number(document.getElementById("grama").value);
-				var plate = Number(document.getElementById("plate").value);
-				var qtdCores = Number(document.getElementById("cores").value);
-				var horas = Number(document.getElementById("horas").value);
-				var minutos = Number(document.getElementById("minutos").value);
-				
-				var custo = 29 + plate;
-				var tempo = minutos + (horas * 60);
-				
-				var custoMinutos = (qtdCores == 1)?30:(qtdCores == 2)?20:(qtdCores == 3)?15:10;
-				
-				var custoTempo = Math.floor(tempo/custoMinutos)
-				custo += custoTempo;
-				custo = ((custo>50)?50:custo)/100;
-				valor = grama * custo;
-				
-				document.getElementById("custo").value = "R$ "+custo;
-				document.getElementById("valor").value = "R$ "+valor;
-			}
-		</script>
-	</head>
-	
-	<body>
-		<h1>Orçamento Impressão 3D</h1>
-		<p>Quantidade de Gramas (desperdício incluso): <input id="grama" name="grama" onchange="calcula()" type="number" min=1 value=1 /></p>
-		<p>Quantidade de Cores: <select id="cores" onchange="calcula()" name="cores"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></p>
-		<p>Quantidade de Chapas(Plate) para impressão: <input id="plate" name="plate" type="number" min=1 value=1  onchange="calcula()" /></p>
-		<p>Tempo de impressão: <input type="number" id="horas" name="horas" min="0" max="10" value=0 onchange="calcula()" /> horas e <input type="number" id="minutos" name="minutos" min="0" max="59" value=1 onchange="calcula()" /> minutos (mais de 10 horas cai no valor fixo de 50 centavos)</p>
-		<p><b>Valor Total</b>: <input id="valor" name="valor" readonly value="R$ 0,30" /></p>
-		<p>Custo da Grama de PLA: <input id="custo" name="custo" readonly value="R$ 0,30" /></p>
-		<h3>FAQ</h3>
-		<b>Como funciona?</b>
-		<p>O processo de impressão é demorado, mas mesmo assim é algo mágico, onde muitas pessoas já disponibilizaram varios modelos prontos, como bonecos articulados, brinquedos retrateis e diversas utilidades. Se você não quer ficar preso ao  que está no site do Bambu Lab, você pode passar um arquivo .stl e podemos fazer um orçamento.</p>
-		<b>Como o custo é calculado?</b>
-		<p>Inicialmente, o custo é do filamento, usando o filamento mais caro em nossa possesão como referência, fica 20 centavos a grama. adiciono 10 centavos à grama para cobrir os custos de energia, e 1 centavo para cada marcador de tempo. O calculo do tempo é baseado em quantas cores são usadas ao mesmo tempo e, no momento, nossa impressora apenas possui suporte a 4 cores de filamento ao mesmo tempo. Leve em consideração que o disperdicio tambem faz parte do valor. O custo maximo a ser cobrado é de 50 centavos. Segue tabela de referencia do uso de tempo em uma unica chapa abaixo:</p>
-		<table><thead><tr><th>Calculo por Custo</th><th>1 Cor</th><th>2 Cores</th><th>3 Cores</th><th>4 Cores</th></tr></thead><tbody><tr><td>1 centavo por n minutos</td><td>30 minutos</td><td>20 minutos</td><td>15 minutos</td><td>10 minutos</td></tr><tr><td>Custo de Impressão de 1 hora</td><td>R$ 0,32</td><td>R$ 0,33</td><td>R$ 0,34</td><td>R$ 0,35</td></tr><tr><td>Custo de Impressão de 2 horas</td><td>R$ 0,34</td><td>R$ 0,36</td><td>R$ 0,38</td><td>R$ 0,40</td></tr><tr><td>Custo de Impressão de 4 horas</td><td>R$ 0,38</td><td>R$ 0,42</td><td>R$ 0,46</td><td>R$ 0,50</td></tr><tr><td>Custo de Impressão de 5 horas</td><td>R$ 0,40</td><td>R$ 0,45</td><td>R$ 0,50</td><td>R$ 0,50</td></tr><tr><td>Custo de Impressão de 6 horas</td><td>R$ 0,42</td><td>R$ 0,48</td><td>R$ 0,50</td><td>R$ 0,50</td></tr><tr><td>Custo de 10 horas ou mais</td><td>R$ 0,50</td><td>R$ 0,50</td><td>R$ 0,50</td><td>R$ 0,50</td></tr></tbody></table>
-		<b>Calculando custo de conversão de imagem em chaveiros e/ou marca-páginas</b>
-		<p>Como existe o processo de converter a arte para a impressão, nesse caso o orçamento é gratuito, mas será cobrado o valor de 50 centavos a grama para cobrir a adaptação da imagem para a impressão. Como chaveiros e marca-página não requerem muito material, o custo não fica tão alto para revenda e cxonsegue algo personalizado.</p>
-		<b>O que não fazemos?</b>
-		<p>Não prestamos serviço do tipo de aplicação de resina e corrente de chaveiros, ainda não está nos planos incluir esses tipos de serviço. No caso ainda não temos alguem  especializado em modelação 3D, portanto caso precise de um objeto mais preciso, será necessário contratar alguem para prestar esse serviço. Como mencionado anteriormente, arquivos no formato .stl são perfeitos para impressão.</p>
-	</body>
+
+<head>
+	<link rel="stylesheet" href="style.css" />
+	<script type="text/javascript" src="calculadora.js"></script>
+	<title>Orçamento Impressão 3D - MasterGig</title>
+</head>
+
+<body onload="calcula()">
+	<h1>Orçamento Impressão 3D</h1>
+	<p>Quantidade de Gramas (desperdício incluso): <input id="grama" name="grama" onchange="calcula()" type="number"
+			min="1" value="1"></p>
+	<p>Impressora: <select id="impressora" onchange="calcula()" name="impressora">
+			<option value="5599" selected>BambuLab A1 Combo (4 Cores)</option>
+		</select></p>
+	<p>Material: <select id="material" onchange="calcula()" name="material">
+			<option value="200" selected>PLA</option>
+		</select></p>
+	<p>Nozzle/Bico: <select id="nozzle" onchange="calcula()" name="nozzle">
+			<option value="0" selected>0.4mm</option>
+			<option value="500">0.2mm</option>
+		</select></p>
+	<p>Plate/Chapa: <select id="plate" onchange="calcula()" name="plate">
+			<option value="0" selected>Bambu Textured PEI Plate</option>
+			<option value="158.72">PEO Textured Triangle</option>
+			<option value="85.60">PET Textured Linear</option>
+			<option value="85.14">PEY Starry Sky (Glitter)</option>
+		</select></p>
+	<p>Quantidade de Chapas(Plate) para impressão: <input id="qtd" name="qtd" type="number" min="1" value="1"
+			onchange="calcula()"></p>
+	<p>Tempo de impressão: <input type="number" id="horas" name="horas" min="0" value="0" onchange="calcula()">
+		horas e <input type="number" id="minutos" name="minutos" min="0" max="59" value="1" onchange="calcula()">
+		minutos (mais de 10 horas cai no valor fixo de 50 centavos)</p>
+	<p><b>Preço Sugerido</b>: <input id="valor" name="valor" readonly="" value="R$ 0,30"></p>
+	<p>Custo do Material: <input id="custoPLA" name="custoPLA" readonly="" value="R$ 0,30"></p>
+	<p>Custo de Energia: <input id="custoEnergia" name="custoEnergia" readonly="" value="R$ 0,30"></p>
+	<p><b>Custo Total</b>: <input id="custo" name="custo" readonly="" value="R$ 0,30"></p>
+	<p>Margem de Lucro (Impressora, Bico, Chapa e Investimento de novos PLAs): <input id="lucro" name="lucro"
+			readonly="" value="R$ 0,30"></p>
+	<h3>FAQ</h3>
+	<div class="accordion">
+		<div class="acc-item">
+			<input type="radio" name="acc" id="works">
+			<label class="acc-label" for="works">Como funciona?</label>
+			<div class="acc-content">
+				<div>
+					<p>O processo de impressão é demorado, mas mesmo assim é algo mágico, onde muitas pessoas já
+						disponibilizaram varios modelos prontos, como bonecos articulados, brinquedos retrateis e
+						diversas utilidades. Se você não quer ficar preso ao que está no site do Bambu Lab, você pode
+						passar um arquivo .stl e podemos fazer um orçamento.</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="calc">
+			<label class="acc-label" for="calc">Como o Custo é Calculado?</label>
+			<div class="acc-content">
+				<div>
+					<p>O material (no caso PLA) é cobrado por gramas, e o custo de energia é de um pouco mais de 1
+						centavo por minuto. Isso cobre o preço basico da impressão.</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="matt">
+			<label class="acc-label" for="matt">Porque o preço do material está acima do mercado?</label>
+			<div class="acc-content">
+				<div>
+					<p>Pode ocorrer alguns erros durante a impressão, e quando acontece é altamente provavel que a
+						impressão será reiniciada. É considerado uma pequena margem de erro para que, caso ocorra, o
+						custo não seja repassado para você.</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="lucr">
+			<label class="acc-label" for="lucr">Como é calculada a "Margem de Lucro"?</label>
+			<div class="acc-content">
+				<div>
+					<p>Diversos fatores entram em jogo para essa margem, como investimento de novos materiais, parcela
+						do custo da impressora, da placa e do bico. O valor é calculado com base no tempo de impressão.
+					</p>
+					<p>O valor final é o preço sugerido, posso acabar arredondando para baixo por conveniência.</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="qtde">
+			<label class="acc-label" for="qtde">Minha impressão é muito grande e precisa de mais chapas de impressão.
+				Porque ao informar a Quantidade de Chapas para Impressão o custo sobe de forma exponencial?</label>
+			<div class="acc-content">
+				<div>
+					<p>Como a margem de erro aumenta com a troca de chapa, pode ocorrer de que a chapa fique suja entre
+						a transição e precise de manutenção entre as impressões, o valor aumenta de forma exponencial
+						prevendo essas falhas.</p>
+					<p>Leve em consideração que imprimir o mesmo conteúdo mais de uma vez não acarreta no uso de mais
+						chapas.</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="caro">
+			<label class="acc-label" for="caro">Achei muito caro, o que você me sugere?</label>
+			<div class="acc-content">
+				<div>
+					<p>Compre sua impressora! Sem brincadeira, as impressoras da BambuLab são bem intuitivas e recomendo
+						muito entrar nessa, nem mesmo que seja por hobby, mas estou aqui tentando garantir uma renda
+						extra nesses tempos complicados onde está cada vez mais dificil conseguir emprego na área de
+						TI...
+						Caso saiba de alguma vaga, aceito indicações.</p>
+					<p><a href="https://beehive.com.br/categoria-produto/bambu-lab/impressora-3d/"
+							target="_blank">Sugestão: Compre na BeeHive</a></p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="bambu">
+			<label class="acc-label" for="bambu">Como posso fazer o calculo eu mesmo?</label>
+			<div class="acc-content">
+				<div>
+					<p>Baixe o <a href="https://bambulab.com/pt-br/download/studio" target="_blank">BambuStudio</a>. Lá
+						você consegue ver os modelos da comunidade, usar o MakerLab para fazer modelos de chaveiros e
+						outros tipos de arte, e consegue gerar arquivos preparados para a impressão.</p>
+					<p>Ao gerar um chaveiro, por exemplo, prepare a impressão e, em seguida, escolha Fatiar Mesa. Ele
+						vai gerar um grafico com a quantidade Total de Gramas, mostra quanto de despercio é esperado
+						para a impressão e mostra quanto tempo vai levar para imprimir. Anote esses valores e informe
+						eles na nossa calculadora, assim você terá uma estimativa do custo sem nem precisar entrar em
+						contato comigo.</p>
+					<p><b>PS.:</b>Não esqueça de marcar a mesma impressora (Bambu Lab A1) e o Diametro (tamanho do bico)
+						da impressão antes de fatiar. Se não for um chaveiro, não esqueça de usar e calcular o suporte
+						para a impressão</p>
+				</div>
+			</div>
+		</div>
+		<div class="acc-item">
+			<input type="radio" name="acc" id="last">
+			<label class="acc-label" for="last">Ficou com alguma duvida? Quer fazer um orçamento? Entre em contato
+				comigo!</label>
+			<div class="acc-content">
+				<div>
+					<p>Ops, ainda não criei um email exclusivo pra isso, mas se esse link chegou até você, provavelmente
+						você tem como entrar em contato... ou aguarde uma atualização dessa página</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
 </html>
